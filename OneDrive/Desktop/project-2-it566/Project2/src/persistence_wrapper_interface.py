@@ -2,6 +2,7 @@
 
 from abc import ABC, abstractmethod
 
+
 class PersistenceWrapperInterface(ABC):
 	"""Specifies persistance wrapper interface methods."""
 

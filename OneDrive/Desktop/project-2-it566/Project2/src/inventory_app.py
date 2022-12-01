@@ -4,45 +4,45 @@ from business_logic import BusinessLogic
 from prettytable import PrettyTable
 import os
 
-class InventoryApp():
+
+class InventoryApp:
 	"""Implements household inventory control features."""
 
 	def __init__(self):
 		"""Initialize object."""
 		# Constants
-		self.NEW_INVENTORY='1'
-		self.LIST_INVENTORIES='2'
-		self.SELECT_INVENTORY='3'
-		self.LIST_INVENTORY_ITEMS='4'
-		self.ADD_ITEMS='5'
-		self.EXIT='6'
+		self.NEW_INVENTORY = '1'
+		self.LIST_INVENTORIES = '2'
+		self.SELECT_INVENTORY = '3'
+		self.LIST_INVENTORY_ITEMS = '4'
+		self.ADD_ITEMS = '5'
+		self.EXIT = '6'
 		# Fields
 		self.menu_choice = 1
 		self.keep_going = True
 		self.business_logic = BusinessLogic()
 		self.active_inventory_id = 0
 
-	def clear_screen(self):
+	@staticmethod
+	def clear_screen():
 		"""Clears the screen. It's either Unix-like or Windows."""
-		try:
-			os.system('clear')
-		except Exception:
-			os.system('cls')
+		os.system('cls')
 
-	def display_menu(self):
+	@staticmethod
+	def display_menu():
 		"""Display menu."""
 		print('\t\t\tHousehold Inventory Application')
 		print()
-		print('\t\t1. New Inventory (Not Implemented)')
+		print('\t\t1. New Inventory')
 		print('\t\t2. List Inventories')
 		print('\t\t3. Select Inventory')
 		print('\t\t4. List Inventory Items')
-		print('\t\t5. Add Items (Not Implemented)')
+		print('\t\t5. Add Items')
 		print('\t\t6. Exit')
 		print()
 
 	def process_menu_choice(self):
-		"""Process menu choice and execute corrensponding methods."""
+		"""Process menu choice and execute corresponding methods."""
 		self.menu_choice = input('Please enter menu item number: ')
 		if __debug__: 
 			print(f'You entered: {self.menu_choice}')
@@ -61,17 +61,17 @@ class InventoryApp():
 				if __debug__:
 					print('Goodbye!')
 				self.keep_going = False
-				self.clear_screen
+				self.clear_screen()
 			case _:
 				print('Invalid Menu Choice!')
 
 	def new_inventory(self):
 		"""Create new inventory."""		
 		self.clear_screen()
-		if __debug__:
-			print('new_inventory() method called...')
-		input('\n\nThis method is not yet implemented. Press any key to continue: ')
-		
+		print('new_inventory() method called...')
+		self.business_logic.create_new_inventory()
+
+
 
 	def list_inventories(self):
 		"""List inventories."""
@@ -80,14 +80,11 @@ class InventoryApp():
 			print('list_inventories() method called...')
 		self.print_inventory_list(self._get_inventories())
 		input('\n\nPress any key to continue...')
-			
 
 	def _get_inventories(self):
 		"""Utility method that calls business logic layer to get all inventory records."""
 		return self.business_logic.get_all_inventories()
 
-
-		
 	def select_inventory(self):
 		"""Selects an existing inventory"""
 		self.clear_screen()
@@ -106,13 +103,6 @@ class InventoryApp():
 					keep_going = False
 		except Exception as e:
 			print(f'Exception in select_inventory() method: {e}')
-			
-		
-
-		
-		
-		
-
 
 	def list_inventory_items(self):
 		"""List inventory items for inventory id contained in self.active_inventory_id field."""
@@ -122,14 +112,11 @@ class InventoryApp():
 		items_list = self.business_logic.get_items_for_inventory_id(self.active_inventory_id)
 		self.print_items_list(items_list)
 		input('\n\nPress any key to continue...')
-		
 
 	def add_items(self):
 		"""Add items to inventory."""
-		if __debug__:
-			print('add_items() method called...')
-		input('\n\vThis method is not yet implemented. Press any key to continue: ')
-
+		print('add_items() method called...')
+		self.business_logic.insert_items()
 
 	def start_application(self):
 		"""Start the applications."""
